@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="随机点名：手动添加名单或导入花名册，随机抽取若干个人并列出被点到的名字。">
+<title>随机点名</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="appbar">
+  <div class="appbar-row">
+    <h1 class="brand"><span class="brand-dot"></span>随机点名</h1>
+
+    <div class="toolbar">
+      <button class="btn" id="btnImport" type="button">导入名单文件</button>
+      <div class="dropdown">
+        <button class="btn" id="btnMore" type="button" aria-haspopup="true" aria-expanded="false">更多</button>
+        <div class="dropdown-menu" id="moreMenu" hidden>
+          <button type="button" data-act="export-names">导出名单（txt）</button>
+          <button type="button" data-act="export-history">导出抽取记录（txt）</button>
+          <hr>
+          <button type="button" data-act="reset-round">重置本轮已抽记录</button>
+          <button type="button" data-act="clear-history">清空抽取记录</button>
+          <hr>
+          <button type="button" data-act="clear-names" class="is-danger">清空整个名单</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="roll-main">
+
+  <section class="panel">
+    <div class="panel-head">
+      <h2>待点名名单</h2>
+      <span class="tag" id="rollCount">共 0 人</span>
+    </div>
+    <div class="panel-body">
+      <div class="roll-add">
+        <input class="input" id="rollNameInput" placeholder="输入姓名，回车添加">
+        <button class="btn primary" id="rollAddBtn" type="button">添加</button>
+      </div>
+
+      <label class="field">
+        <span class="field-label">批量添加：每行一个名字，也可以用逗号、空格分隔（可以直接从 Excel 里复制一列粘贴进来）</span>
+        <textarea class="input" id="rollBulk" rows="5" placeholder="张三&#10;李四&#10;王五"></textarea>
+      </label>
+      <div class="roll-row">
+        <button class="btn" id="rollBulkAdd" type="button">追加到名单</button>
+        <button class="btn" id="rollBulkReplace" type="button">替换整个名单</button>
+        <button class="btn" id="rollImport2" type="button">从花名册文件导入</button>
+      </div>
+
+      <div class="roll-names" id="rollNames"></div>
+      <p class="hint">点击名字可以切换「本轮已抽」状态（有同学请假时可以取消已抽标记），点名字右边的 × 从名单里删除。</p>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-head">
+      <h2>随机抽取</h2>
+      <span class="tag" id="rollPool">候选 0 人</span>
+    </div>
+    <div class="panel-body">
+      <div class="roll-field">
+        <span class="field-label">抽取人数</span>
+        <div class="roll-count-row">
+          <button class="mini" id="rollMinus" type="button" title="减少一个">−</button>
+          <input class="input" id="rollCountInput" type="number" min="1" step="1" value="1">
+          <button class="mini" id="rollPlus" type="button" title="增加一个">+</button>
+        </div>
+        <div class="quick-row" id="rollQuick">
+          <button type="button" data-count="1">1 人</button>
+          <button type="button" data-count="2">2 人</button>
+          <button type="button" data-count="3">3 人</button>
+          <button type="button" data-count="5">5 人</button>
+          <button type="button" data-count="all">剩余全部</button>
+        </div>
+      </div>
+
+      <div class="roll-options">
+        <label class="check"><input type="checkbox" id="rollAvoid" checked><span>本轮不重复（抽过的人不再抽）</span></label>
+        <label class="check"><input type="checkbox" id="rollAnimate" checked><span>抽取时名字滚动一下</span></label>
+      </div>
+
+      <button class="btn primary big" id="rollStart" type="button">开始抽取</button>
+
+      <div class="roll-result" id="rollResult"></div>
+
+      <div class="roll-row">
+        <button class="mini" id="rollCopy" type="button">复制本次结果</button>
+        <button class="mini" id="rollReset" type="button">重置本轮</button>
+      </div>
+
+      <h3 class="roll-subtitle">抽取记录</h3>
+      <div class="roll-history" id="rollHistory"></div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <span id="rollFooter"></span>
+  <span class="footer-tip">名单和抽取记录只保存在这台设备的浏览器里（localStorage），不会上传到服务器。</span>
+</footer>
+
+<input type="file" id="fileRoster" accept=".xlsx,.xls,.xlsm,.csv,.txt" hidden>
+
+<div class="modal-mask" id="modalMask" hidden>
+  <div class="modal" id="modal" role="dialog" aria-modal="true"></div>
+</div>
+
+<div class="toast-wrap" id="toastWrap"></div>
+
+<script src="vendor/xlsx.full.min.js"></script>
+<script src="js/sheet.js"></script>
+<script src="js/roster.js"></script>
+<script src="js/rollcall.js"></script>
+</body>
+</html>
