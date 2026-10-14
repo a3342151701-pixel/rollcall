@@ -3,7 +3,7 @@
  * 运行：node tools/serve.js            默认 0.0.0.0:5173，同一 Wi-Fi 下的手机/平板也能访问
  *       node tools/serve.js 8080       指定端口
  *       node tools/serve.js --local    只允许本机访问（等价于旧行为）
- * 说明：直接双击 rollcall.html 也能用，这个脚本主要是方便在浏览器里调试、或者让其他设备打开。
+ * 说明：直接双击 index.html 也能用，这个脚本主要是方便在浏览器里调试、或者让其他设备打开。
  */
 'use strict';
 
@@ -43,7 +43,7 @@ function lanAddresses() {
 
 http.createServer((req, res) => {
   const urlPath = decodeURIComponent(req.url.split('?')[0]);
-  const relative = urlPath === '/' ? 'rollcall.html' : urlPath.replace(/^\/+/, '');
+  const relative = urlPath === '/' ? 'index.html' : urlPath.replace(/^\/+/, '');
   const target = path.resolve(root, relative);
 
   if (!target.startsWith(root)) {

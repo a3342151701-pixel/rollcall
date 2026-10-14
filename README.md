@@ -1,7 +1,7 @@
 # 随机点名
 
 上课点名用的小网页：**先准备一份待点名名单，然后从名单里随机抽若干个名字**。
-纯前端、无需安装、无需联网，双击 `rollcall.html` 就能用（推荐 Chrome / Edge）。
+纯前端、无需安装、无需联网，双击 `index.html` 就能用（推荐 Chrome / Edge）。
 
 所有数据（名单、本轮已抽状态、抽取记录）都只存在**访问者自己的浏览器**里（localStorage，键 `roll-call/v1`），
 不会上传到服务器，别人打开看到的仍然是一份空名单。
@@ -10,7 +10,7 @@
 
 ## 快速开始
 
-1. 双击打开 [rollcall.html](rollcall.html)。
+1. 双击打开 [index.html](index.html)。
 2. 把名单加进去：手动输入姓名回车、把一批名字粘贴进文本框，或者点「导入名单文件」读一份花名册。
 3. 设置抽取人数，点「开始抽取」。
 
@@ -49,7 +49,7 @@ Windows 首次运行会弹出防火墙询问，勾选「专用网络」并允许
 ## 目录结构
 
 ```
-rollcall.html              页面结构（顶栏、名单区、抽取区）
+index.html                 页面结构（顶栏、名单区、抽取区）
 styles.css                 全部样式，含深色模式和响应式布局
 js/sheet.js                读上传的 Excel / CSV 文件 → 二维数组
 js/roster.js               名单的数据模型、姓名解析、随机抽取（不依赖界面）
@@ -85,9 +85,9 @@ git push -u origin main
 ```
 
 然后在仓库的 Settings → Pages 里把 Source 设为 `Deploy from a branch` / `main` / `/`。
-由于根目录没有 `index.html`，发布后默认地址会指向目录列表，直接访问 `.../rollcall.html` 即可；
-如果希望根地址直接打开点名页，把 `rollcall.html` 改名为 `index.html`，
-并把 `tools/serve.js` 里 `urlPath === '/'` 那行的 `'rollcall.html'` 改回 `'index.html'`。
+发布后根地址（`https://<用户名>.github.io/<仓库名>/`）就直接打开点名页：首页文件已经叫 `index.html`，
+`tools/serve.js` 访问 `/` 时也是读它，本地预览和线上地址一致。
+（本仓库已发布在 <https://a3342151701-pixel.github.io/rollcall/>。）
 
 ---
 
